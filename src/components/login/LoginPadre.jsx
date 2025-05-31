@@ -22,21 +22,15 @@ const LoginPadre = ( {onLoginSuccess} ) => {
             headers: { "Content-Type": "application/json"},
             body: JSON.stringify({email, password})
         })
-        
-        if (!response.ok) {
-            throw new Error("Usuario/Contrasena erroneos")
-        }
-
-        const data = await response.json();
-
-        onLoginSuccess(data.token);
-        navigate("/products");
-
+        .then((response) => response.json())
+        .then((data) => {
+            onLoginSuccess(data.access_token);
+        })
         }catch (err) {
             setError("Error login");
             console.error(err);
         }
-
+        navigate("/");
     }
 
     return (

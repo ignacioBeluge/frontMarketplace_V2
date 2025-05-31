@@ -11,7 +11,21 @@ const Navigation = () => {
     <nav>
         <ul>
             <li>
-                <Link to = '/'>Inicio</Link>
+                <Link to="/">
+                    <button>Home</button>
+                </Link>
+            </li>
+
+            <li>
+                <Link to="/login">
+                    <button>Iniciar sesión</button>
+                </Link>
+            </li>
+
+            <li>
+                <Link to="/register">
+                <button>Registrarse</button>
+                </Link>
             </li>
         </ul>
     </nav>

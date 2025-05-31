@@ -2,21 +2,21 @@
 // estructura de la tarjeta 
 // componente dumb 
 
-const ProductCard = ({name, description, price, image}) => {
-    console.log("Imagen recibida:", image)
+const ProductCard = ({id, name, description, price, image, onAddToCart}) => {
     return (
-        <>
-        <h3> Nombre: {name}</h3>
+        <div>
+
+        <h2> Nombre: {name}</h2>
         <p> Descripcion: {description} </p>
-        <p> Precio: {price} </p>
-        <div> 
-            {image && (
-                <img
-                src = {`data:image/jpeg;base64,${image}`}
-                />
-            )}
+        <p> Precio: {price} </p> 
+        {image && (
+        <img src={`data:image/jpeg;base64,${image}`}/>
+        )}
+
+        {onAddToCart && (
+            <button onClick={() => onAddToCart(id)}> Agregar al carrito </button>) }
+        
         </div>
-        </>
     )
 }
 
