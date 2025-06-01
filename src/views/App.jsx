@@ -8,6 +8,7 @@ import LoginView from './LoginView';
 import HomeView from './HomeView';
 import ProductListPorCat from '../components/Product/ProductListPorCat';
 import RegisterView from './RegisterView';
+import CartView from './CartView'
 import Navigation from '../components/router/Navigation';
 import { useState } from 'react';
 
@@ -33,6 +34,7 @@ const App = () => {
       <Route path="/products/:categoryId" element={<ProductListPorCat token={token} />} />
       <Route path="/login" element={<LoginView  onLoginSuccess={setToken}/>} />
       <Route path="/register" element={<RegisterView />} />
+      <Route path="/cart" element={<CartView token={token} />}/> 
     </Routes>
     </>
   );
