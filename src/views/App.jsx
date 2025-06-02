@@ -10,6 +10,8 @@ import ProductListPorCat from '../components/Product/ProductListPorCat';
 import RegisterView from './RegisterView';
 import CartView from './CartView'
 import Navigation from '../components/router/Navigation';
+import AdminView from './AdminView'
+
 import { useState } from 'react';
 
 
@@ -19,7 +21,15 @@ import { useState } from 'react';
 const App = () => {
 
   const [token, setToken] = useState (null);
+  const [role, setRole] = useState(null);
+
   const navigate = useNavigate();
+
+    const handleLoginSuccess = (token, role) => {
+    setToken(token);
+    setRole(role)
+    navigate("/"); // moverlo acá
+  };
 
   const handleLogout = () => {
     setToken (null);
@@ -32,9 +42,10 @@ const App = () => {
     <Routes>
       <Route path = '/' element = {<HomeView/>}/>
       <Route path="/products/:categoryId" element={<ProductListPorCat token={token} />} />
-      <Route path="/login" element={<LoginView  onLoginSuccess={setToken}/>} />
+      <Route path="/login" element={<LoginView  onLoginSuccess={handleLoginSuccess}/>} />
       <Route path="/register" element={<RegisterView />} />
-      <Route path="/cart" element={<CartView token={token} />}/> 
+      <Route path="/cart" element={<CartView token={token} />}/>
+      <Route path="/admin" element={<AdminView token={token} role={role} />} />
     </Routes>
     </>
   );

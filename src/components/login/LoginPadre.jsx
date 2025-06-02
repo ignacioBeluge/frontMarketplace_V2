@@ -7,7 +7,6 @@ import LoginHijo from "./LoginHijo";
 const LoginPadre = ( {onLoginSuccess} ) => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [error, setError] = useState("");
     const navigate = useNavigate();
 
     const URL = "http://localhost:8080/api/v1/auth/authenticate"
@@ -18,19 +17,18 @@ const LoginPadre = ( {onLoginSuccess} ) => {
 
         try {
             const response = await fetch(URL, {
-            method: "POST",
-            headers: { "Content-Type": "application/json"},
-            body: JSON.stringify({email, password})
-        })
-        .then((response) => response.json())
-        .then((data) => {
-            onLoginSuccess(data.access_token);
-        })
-        }catch (err) {
-            setError("Error login");
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email, password })
+            })
+            const data = await response.json();
+            console.log("Token:", data.access_token);
+            console.log("Rol:", data.role);
+            onLoginSuccess(data.access_token, data.role);
+            navigate("/");
+        }catch(err) {
             console.error(err);
         }
-        navigate("/");
     }
 
     return (
@@ -40,7 +38,6 @@ const LoginPadre = ( {onLoginSuccess} ) => {
         onEmailChange={(e) => setEmail(e.target.value)}
         onPasswordChange = {(e) => setPassword(e.target.value)} 
         onSubmit={handleLogin} 
-        error = {error}
         />
     )
 }

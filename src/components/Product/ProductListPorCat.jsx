@@ -60,7 +60,7 @@ const ProductListPorCat = ({token}) => {
         <>
         <h1> Productos </h1>
         <button onClick={volver}> Volver al inicio </button>
-        <div>
+        <div className="product-list">
             {products.map((product) => (
                 <ProductCard
                 key = {product.id}

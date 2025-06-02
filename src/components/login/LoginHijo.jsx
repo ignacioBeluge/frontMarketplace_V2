@@ -4,8 +4,7 @@ const LoginHijo = ({
     password, 
     onEmailChange, 
     onPasswordChange, 
-    onSubmit, 
-    error}) => {
+    onSubmit }) => {
         return (
             <form onSubmit={onSubmit}>
                 <input
@@ -21,7 +20,6 @@ const LoginHijo = ({
                 placeholder = "Contrasena"
                 />
                 <button type = "submit"> Login</button>
-                <p> {error}</p>
             </form>
         )
 }
