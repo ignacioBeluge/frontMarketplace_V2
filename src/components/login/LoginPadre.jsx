@@ -21,6 +21,11 @@ const LoginPadre = ( {onLoginSuccess} ) => {
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ email, password })
             })
+
+            if(!response.ok){
+                alert("Credenciales incorrectas");
+            }
+
             const data = await response.json();
             console.log("Token:", data.access_token);
             console.log("Rol:", data.role);

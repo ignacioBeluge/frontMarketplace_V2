@@ -79,9 +79,11 @@ const CartPadre = ({token}) => {
         onDeleteItem = {removeItem}
         />
         
+        {cart.items.length > 0 &&
         <button onClick={() => navigate("/checkout")}>
             Seleccionar medio de pago
         </button>
+        }
 
         </div>
     )
