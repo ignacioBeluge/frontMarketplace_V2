@@ -11,6 +11,9 @@ import RegisterView from './RegisterView';
 import CartView from './CartView'
 import Navigation from '../components/router/Navigation';
 import AdminView from './AdminView'
+import AdminManageProducts from '../components/adminManage/AdminManageProducts';
+import CheckoutFuncional from '../components/checkout/CheckoutFuncional'
+import UserOrdersFuncional from '../components/userOrders/UserOrdersFuncional';
 
 import { useState } from 'react';
 
@@ -46,6 +49,9 @@ const App = () => {
       <Route path="/register" element={<RegisterView />} />
       <Route path="/cart" element={<CartView token={token} />}/>
       <Route path="/admin" element={<AdminView token={token} role={role} />} />
+      <Route path="/admin/products/manage" element={<AdminManageProducts token={token} />} />
+      <Route path="/checkout" element={<CheckoutFuncional token={token} />} />
+      <Route path="/orders" element={<UserOrdersFuncional token={token} />} />
     </Routes>
     </>
   );

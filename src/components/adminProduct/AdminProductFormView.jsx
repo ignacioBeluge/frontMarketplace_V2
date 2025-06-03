@@ -64,6 +64,7 @@ const AdminProductFormView = ({
         </select><br />
 
         <button type="submit">Crear producto</button>
+
     </form>
     </div>
     );

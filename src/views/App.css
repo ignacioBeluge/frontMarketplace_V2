@@ -40,3 +40,11 @@
 .read-the-docs {
   color: #888;
 }
+
+.product-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 1rem;
+  gap: 1rem;
+}

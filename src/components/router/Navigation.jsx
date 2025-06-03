@@ -51,14 +51,18 @@ const Navigation = ({token, onLogout}) => {
 
             {token && (
                 <>
-                <li>
-                    <Link to="/cart">🛒 Carrito </Link>
-                </li>
+                {role === "USER" && (
+                    <>
+                        <li>
+                            <Link to="/cart">🛒 Carrito </Link>
+                        </li>
 
-                <li>
-                    <button onClick={onLogout}>Cerrar sesion </button>
-                </li>
-                
+                        <li>
+                            <Link to="/orders"> Mis Órdenes </Link>
+                        </li>
+                    </>
+                )}
+
                 {role === "ADMIN" && (
                     <li>
                         <Link to="/admin">
@@ -66,6 +70,11 @@ const Navigation = ({token, onLogout}) => {
                         </Link>
                     </li>
                 )}
+
+                <li>
+                    <button onClick={onLogout}>Cerrar sesion </button>
+                </li>
+
                 </>
             )}
         </ul>

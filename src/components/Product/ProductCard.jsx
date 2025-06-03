@@ -1,6 +1,8 @@
 //Componente maquetar
 // estructura de la tarjeta 
-// componente dumb 
+// componente dumb
+
+import './ProductCard.css'
 
 const ProductCard = ({ id, name, description, price, image, onAddToCart }) => {
     return (

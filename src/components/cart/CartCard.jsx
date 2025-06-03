@@ -16,7 +16,7 @@ const CartCard = ({ item, onUpdateCantidad, onDeleteItem }) => {
 
     return (
         <li style={{ border: "1px solid gray", padding: "10px", marginBottom: "10px" }}>
-            <p><strong>{product.description}</strong></p>
+            <p><strong>{product.name}</strong></p>
             <p>Precio unitario: ${product.price}</p>
             <p>Cantidad: {quantity}</p>
             <p>Subtotal: ${quantity * product.price}</p>

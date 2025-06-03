@@ -71,15 +71,19 @@ const CartPadre = ({token}) => {
     }
 
     return (
-        <>
+        <div>
         <CartList 
         items = {cart.items}
         total = {cart.totalPrice}
         onUpdateCantidad = {updateCantidad}
         onDeleteItem = {removeItem}
         />
+        
+        <button onClick={() => navigate("/checkout")}>
+            Seleccionar medio de pago
+        </button>
 
-        </>
+        </div>
     )
 
 }
