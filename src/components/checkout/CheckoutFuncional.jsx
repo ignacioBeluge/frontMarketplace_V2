@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import CheckoutView from "./CheckoutView";
+import { useDispatch, useSelector } from "react-redux";
+import { createOrder } from "../../redux/orderSlice";
 
-const CheckoutFuncional = ({ token }) => {
+const CheckoutFuncional = () => {
     const [selectedPayment, setSelectedPayment] = useState("cash");
     const [cardData, setCardData] = useState({
     cardNumber: "",
@@ -10,7 +12,14 @@ const CheckoutFuncional = ({ token }) => {
     expiry: "",
     cvv: "",
     });
+
     const navigate = useNavigate();
+
+    const dispatch = useDispatch();
+    
+    const token = useSelector((state) => state.auth.token);
+
+
 
     const handlePaymentChange = (e) => {
         setSelectedPayment(e.target.value);
@@ -21,22 +30,9 @@ const CheckoutFuncional = ({ token }) => {
     };
 
     const handleSubmitOrder = async () => {
-        try {
-        const response = await fetch("http://localhost:8080/orders", {
-            method: "POST",
-            headers: {
-            Authorization: `Bearer ${token}`,
-            },
-        });
-
-        if (!response.ok) throw new Error("Error al crear orden");
-
-        alert("¡Orden de compra creada exitosamente!");
-        navigate("/");
-        } catch (err) {
-        console.error(err);
-        alert("No se pudo crear la orden");
-        }
+        dispatch(createOrder())
+        alert("Orden creada con exito! ")
+        navigate('/orders')
     };
 
     return (

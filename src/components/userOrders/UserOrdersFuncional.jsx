@@ -1,33 +1,20 @@
 
 import { useEffect, useState } from "react";
 import UserOrdersView from "./UserOrdersView";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchOrders } from "../../redux/orderSlice";
 
-const UserOrders = ({ token }) => {
-    const [orders, setOrders] = useState([]);
 
-    useEffect(() => {
-        const fetchOrders = async () => {
-        try {
-            const response = await fetch("http://localhost:8080/orders", {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-            });
+const UserOrders = () => {
+        const dispatch = useDispatch();
+        const token = useSelector((state) => state.auth.token);
+        const orders = useSelector((state) => state.orders.items);
 
-            if (!response.ok) throw new Error("Error al obtener órdenes");
-
-            const data = await response.json();
-            setOrders(data);
-        } catch (err) {
-            console.error(err);
-            alert("No se pudieron obtener las órdenes");
-        }
-        };
-
-        fetchOrders();
-    }, [token]);
-
-    return <UserOrdersView orders={orders} />;
+        useEffect(() => {
+            dispatch(fetchOrders());
+        }, [token, dispatch]);
+    
+        return <UserOrdersView orders={orders} />;
     };
 
 export default UserOrders;

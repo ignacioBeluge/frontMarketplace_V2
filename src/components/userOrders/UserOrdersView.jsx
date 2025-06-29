@@ -1,4 +1,5 @@
 const UserOrdersView = ({ orders }) => {
+
     return (
         <div>
         <h2>Mis Órdenes de Compra</h2>
