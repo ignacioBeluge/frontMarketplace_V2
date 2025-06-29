@@ -1,39 +1,31 @@
 import { Link } from "react-router-dom"
 import { jwtDecode } from "jwt-decode"
 import { useEffec, useEffect, useState } from "react"
+import { useSelector } from "react-redux"
+
 
 // linkear componentes con rutas
+
 // actualiza vista sin recargar pagina
 
-const Navigation = ({token, onLogout}) => {
-    const [role, setRole] = useState(null);
-
-    useEffect(() => {
-        if(token) {
-            try {
-                const decoded = jwtDecode(token);
-                const role = decoded.role?.replace("ROLE_", "")
-                setRole(role);
-            }catch(err){
-                console.error(err);
-                setRole(null);
-            }
-        }else {
-            setRole(null);
-        }
-    }, [token]);
-
+const Navigation = () => {
+    const { token, role } = useSelector((state) => state.auth)
 
     return (
     <nav>
-        <ul>
-            <li>
+        {token ? (
+            <p> Logueado as {role} </p>
+        ) : (
+            <p> No estas logeado </p>
+        )}
+
+        <li>
                 <Link to="/">
                     <button>Home</button>
                 </Link>
-            </li>
+        </li>
 
-            {!token && (
+        {!token && (
                 <>
                 <li>
                     <Link to="/login">
@@ -47,9 +39,9 @@ const Navigation = ({token, onLogout}) => {
                     </Link>
                 </li>
                 </>
-            )}
+        )}
 
-            {token && (
+        {token && (
                 <>
                 {role === "USER" && (
                     <>
@@ -70,14 +62,10 @@ const Navigation = ({token, onLogout}) => {
                         </Link>
                     </li>
                 )}
-
-                <li>
-                    <button onClick={onLogout}>Cerrar sesion </button>
-                </li>
-
                 </>
             )}
-        </ul>
+
+
     </nav>
     )
 }

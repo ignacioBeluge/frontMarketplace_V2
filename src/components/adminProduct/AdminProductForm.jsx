@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useDispatch } from 'react-redux'
+import { createProducts } from "../../redux/productSlice";
+
 import AdminProductFormView from "./AdminProductFormView";
 
-const AdminProductForm = ({ token }) => {
+const AdminProductForm = () => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
@@ -10,7 +12,8 @@ const AdminProductForm = ({ token }) => {
   const [imageFile, setImageFile] = useState(null);
   const [categories, setCategories] = useState([]);
   const [selectedCategoryId, setSelectedCategoryId] = useState("");
-  const navigate = useNavigate();
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -29,33 +32,21 @@ const AdminProductForm = ({ token }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     if (!name || !description || !price || !imageFile || !selectedCategoryId || !stock) {
       alert("Completá todos los campos");
       return;
     }
 
-    const formData = new FormData();
-    formData.append("name", name);
-    formData.append("description", description);
-    formData.append("price", parseFloat(price));
-    formData.append("stock", parseInt(stock));
-    formData.append("image", imageFile);
-    formData.append("categoryId", selectedCategoryId);
-
-    try {
-      const response = await fetch("http://localhost:8080/products", {
-        method: "POST",
-        headers: { Authorization: `Bearer ${token}` },
-        body: formData,
-      });
-      if (!response.ok) throw new Error("Error al crear producto");
-
-      alert("Producto creado exitosamente");
-      navigate("/");
-    } catch (err) {
-      console.error(err);
-      alert("No se pudo crear el producto");
+    const newProduct = {
+    name,
+    description,
+    price,
+    stock,
+    imageFile,
+    selectedCategoryId,
     }
+    await dispatch(createProducts(newProduct))
   };
 
   return (

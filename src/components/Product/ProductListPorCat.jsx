@@ -1,65 +1,37 @@
 import { useParams, useNavigate } from "react-router-dom";
 import ProductCard from "./ProductCard"
 import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from 'react-redux'
+import { fetchProducts } from "../../redux/productSlice";
+import { addProduct } from "../../redux/cartSlice";
 
-const ProductListPorCat = ({token}) => {
+const ProductListPorCat = () => {
     const { categoryId } = useParams();
-    const [products, setProducts] = useState([]);
-    const URL = `http://localhost:8080/products/${categoryId}`
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const {items: products,loading,error} = useSelector((state) => state.products)
+    const token = useSelector((state) => state.auth.token);
 
     useEffect(() => {
-        fetch(URL)
-        .then((resultado) => resultado.json())
-        .then((data) => setProducts((data)))
-        .catch((err) => console.error("Error al traer productos", err))
-    }, [categoryId])
+        dispatch(fetchProducts(categoryId))
+    },[categoryId,dispatch])
 
-    console.log("TOKEN EN ProductListPorCat:", token);
+    if (loading) return <p> Cargando productos.. </p>
+    if (error) return <p> Error al cargar: {error} </p>
 
-    const volver = () => {
-        navigate("/");
-    }
-
+    
     const agregarCarrito = (productId) => {
         if (!token) {
             navigate("/login");
             return;
         }
-        
-        const body = {
-        productId: productId,
-        quantity: 1
-    };
-
-    console.log("Body enviado al backend:", body);
-
-        fetch("http://localhost:8080/cart", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`,
-            },
-            body: JSON.stringify(body)
-        })
-        .then((response) => {
-            if (!response.ok){
-                throw new Error("Error al agregar carrito");
-            }
-            return response.json();
-        })
-        .then((data) => {
-            alert("Producto agregado al carrito")
-        })
-        .catch((err) => {
-            console.error(err);
-        })
+        dispatch(addProduct({ productId }))
+        .then(() => alert ("Producto agregado"))
     }
 
     return(
         <>
         <h1> Productos </h1>
-        <button onClick={volver}> Volver al inicio </button>
         <div className="product-grid">
             {products.map((product) => (
                 <ProductCard

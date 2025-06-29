@@ -1,38 +1,32 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import { useNavigate } from "react-router-dom";
 
 import LoginHijo from "./LoginHijo";
+import { useDispatch, useSelector } from "react-redux";
+import { postAuth } from "../../redux/authSlice";
 
-const LoginPadre = ( {onLoginSuccess} ) => {
+const LoginPadre = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
-
-    const URL = "http://localhost:8080/api/v1/auth/authenticate"
+    const dispatch = useDispatch();
+    const { token, role, error  } = useSelector((state) => state.auth)
+    
 
     const handleLogin = async (e) => {
         e.preventDefault();
-        console.log("Login enviado");
+        const login = await dispatch(postAuth({ email, password }));
 
-        try {
-            const response = await fetch(URL, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ email, password })
-            })
-
-            if(!response.ok){
-                alert("Credenciales incorrectas");
-            }
-
-            const data = await response.json();
-            console.log("Token:", data.access_token);
-            console.log("Rol:", data.role);
-            onLoginSuccess(data.access_token, data.role);
-            navigate("/");
-        }catch(err) {
-            console.error(err);
+        if (postAuth.fulfilled.match(login)) {
+            alert("Login exitoso");
+            const tokenRecibido = login.payload.access_token;
+            const rolRecibido = login.payload.role;
+            navigate('/');
+        }
+        else{
+            console.error(login.error);
+            alert("Credenciales invalidas")
         }
     }
 

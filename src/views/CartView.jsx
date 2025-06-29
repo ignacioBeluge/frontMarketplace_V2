@@ -1,11 +1,11 @@
 import CartPadre from "../components/cart/CartPadre";
 
-const CartView = ({token}) => {
+const CartView = () => {
     return (
         <>
         <div >
             <h1> Mi carrito </h1>
-            <CartPadre token = {token} />
+            <CartPadre/>
         </div>
         </>
     )

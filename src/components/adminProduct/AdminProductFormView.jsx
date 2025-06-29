@@ -4,19 +4,21 @@ const AdminProductFormView = ({
     price,
     stock,
     imageFile,
-    selectedCategoryId,
     categories,
+    selectedCategoryId,
     onNameChange,
     onDescriptionChange,
     onPriceChange,
     onStockChange,
     onImageChange,
     onCategoryChange,
-    onSubmit,
-}) => {
+    onSubmit
+    }) => {
+
     return (
     <div>
         <form onSubmit={onSubmit}>
+        <h2> Crear nuevo producto </h2>
         <input
         type="text"
         placeholder="Nombre"

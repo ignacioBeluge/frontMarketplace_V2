@@ -1,64 +1,43 @@
 import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import AdminManageProductsView from "./AdminManageProductView";
+import { deleteProduct, fetchProducts, updateStock } from "../../redux/productSlice";
 
-const AdminManageProducts = ({ token }) => {
-  const [products, setProducts] = useState([]);
+
+
+const AdminManageProducts = () => {
   const [selectedProductId, setSelectedProductId] = useState("");
   const [stock, setStock] = useState("");
+  const dispatch = useDispatch();
+  const products = useSelector((state) => state.products.items || []);
+  const token = useSelector((state) => state.auth.token);
 
   useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const res = await fetch("http://localhost:8080/products");
-        const data = await res.json();
-        setProducts(data);
-      } catch (err) {
-        console.error("Error al cargar productos:", err);
-      }
-    };
-    fetchProducts();
-  }, []);
+  dispatch(fetchProducts());
+}, [dispatch]);
 
   const handleUpdateStock = async (e) => {
     e.preventDefault();
-    try {
-      const response = await fetch(
-        `http://localhost:8080/products/${selectedProductId}/stock`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({ stock: parseInt(stock) }),
-        }
-      );
-      if (!response.ok) throw new Error("No se pudo modificar el stock");
-      alert("Stock actualizado");
-      setStock("");
-    } catch (err) {
-      console.error(err);
-      alert("Error al actualizar stock");
+    
+    if (!selectedProductId || !stock) {
+      alert("Seleccioná un producto y completá el stock");
+      return;
     }
+    await dispatch(updateStock({
+      id: selectedProductId,
+      stock: parseInt(stock)
+    }));
+    setStock("");
   };
 
-  const handleDeleteProduct = async (id) => {
+  const handleDeleteProduct = async (productId) => {
     const confirm = window.confirm("¿Estás seguro de eliminar este producto?");
     if (!confirm) return;
+    await dispatch(deleteProduct({id: productId}))
+    alert("Producto eliminado con éxito");
 
-    try {
-      const response = await fetch(`http://localhost:8080/products/${id}`, {
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      if (!response.ok) throw new Error("No se pudo eliminar");
-      alert("Producto eliminado");
-      setProducts(products.filter((p) => p.id !== id));
-    } catch (err) {
-      console.error(err);
-      alert("Error al eliminar producto");
+    if (productId === selectedProductId) {
+      setSelectedProductId("");
     }
   };
 
