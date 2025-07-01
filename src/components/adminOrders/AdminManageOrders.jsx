@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteOrder, fetchAllOrders } from "../../redux/orderSlice";
-import AdminManageOrderView from "./adminManageOrderView";
+import UserOrdersView from "../userOrders/UserOrdersView";
 
 const AdminManageOrders = () => {
   const dispatch = useDispatch();
@@ -28,7 +28,7 @@ const AdminManageOrders = () => {
   };
 
   return (
-    <AdminManageOrderView orders={orders} onDeleteOrder={handleDeletedOrder} />
+    <UserOrdersView orders={orders} onDeleteOrder={handleDeletedOrder} />
   );
 };
 

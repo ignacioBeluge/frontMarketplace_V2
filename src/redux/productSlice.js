@@ -62,6 +62,21 @@ export const updateStock = createAsyncThunk("products/updateStock", async(update
   return data
 })
 
+export const updatePrice = createAsyncThunk("products/updatePrice", async(updatedPrice, thunkAPI) => {
+  const {id, price} = updatedPrice
+  const token = thunkAPI.getState().auth.token;
+  const {data} = await axios.put(`http://localhost:8080/products/${id}/price`, 
+    {price},
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    }
+  )
+  return data
+})
+
 export const deleteProduct = createAsyncThunk("products/deleteProduct", async ({id}, thunkAPI) => {
   const token = thunkAPI.getState().auth.token;
   const {data} = await axios.delete(`http://localhost:8080/products/${id}`,
@@ -116,6 +131,12 @@ const productSlice = createSlice({
         })
         // PUT
         .addCase(updateStock.fulfilled, (state, action) => {
+          const index = state.items.findIndex(product => product.id === action.payload.id)
+          if (index !== -1) {
+            state.items[index] = action.payload;
+          }
+        })
+        .addCase(updatePrice.fulfilled, (state, action) => {
           const index = state.items.findIndex(product => product.id === action.payload.id)
           if (index !== -1) {
             state.items[index] = action.payload;
