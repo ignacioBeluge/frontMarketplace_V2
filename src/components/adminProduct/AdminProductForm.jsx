@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { createProducts } from "../../redux/productSlice";
 
 import AdminProductFormView from "./AdminProductFormView";
+import { fetchCategories } from "../../redux/categoriesSlice";
 
 const AdminProductForm = () => {
   const [name, setName] = useState("");
@@ -10,25 +11,16 @@ const AdminProductForm = () => {
   const [price, setPrice] = useState("");
   const [stock, setStock] = useState("");
   const [imageFile, setImageFile] = useState(null);
-  const [categories, setCategories] = useState([]);
   const [selectedCategoryId, setSelectedCategoryId] = useState("");
 
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        const response = await fetch("http://localhost:8080/categories");
-        if (!response.ok) throw new Error("Error al obtener categorías");
-        const data = await response.json();
-        console.log("Categorias obtenidas", data);
-        setCategories(data);
-      } catch (err) {
-        console.error("Error al obtener categorías:", err);
-      }
-    };
-    fetchCategories();
-  }, []);
+  const {items: categories , loading, error} = useSelector((state)=> state.categories)
+
+  useEffect(()=>{
+        dispatch(fetchCategories())
+    },[dispatch])
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -46,8 +38,24 @@ const AdminProductForm = () => {
     imageFile,
     selectedCategoryId,
     }
-    await dispatch(createProducts(newProduct))
+    
+    try {
+      const resultAction = await dispatch(createProducts(newProduct));
+
+      if (createProducts.fulfilled.match(resultAction)) {
+        alert("Producto creado correctamente");
+        // Acá podés resetear el form si querés
+      } else {
+        alert("Error al crear el producto");
+      }
+    } catch (err) {
+      console.error("Error en handleSubmit:", err);
+      alert("Ocurrió un error inesperado");
+    }
   };
+
+  if (loading) return <p>Cargando categorías...</p>;
+  if (error) return <p>Error al cargar categorías: {error}</p>;
 
   return (
     <>

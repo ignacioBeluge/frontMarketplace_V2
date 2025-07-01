@@ -1,37 +1,28 @@
 import { useState } from "react"
-
 import AdminCategoryView from "./AdminCategoryFormView";
+import { useDispatch } from "react-redux";
+import { createCategories } from "../../redux/categoriesSlice";
 
-const AdminCategoryForm = ({token}) => {
+const AdminCategoryForm = () => {
     const [description, setDescription] = useState("");
-    const URL = 'http://localhost:8080/categories'
+    const dispatch= useDispatch()
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        if (!description.trim()){
-            alert("Ingresa descripcion");
-            return
-        }
-
-        try {
-            const response = await fetch(URL, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization" : `Bearer ${token}`,
-                },
-                body: JSON.stringify({description})
-            })
-
-            if(!response.ok) {
-                throw new Error("Error al crear categoria")
-            }
-
-            alert("Categoria creada");
-        }catch (err) {
-            console.error(err);
-        }
+    const handleSubmit= async (e) => {  //crear categoria
+      e.preventDefault()
+      if (!description.trim()) {
+      alert("Ingresa una descripción");
+      return;
     }
+    try {
+      await dispatch(createCategories({ description }));
+      alert("Categoría creada");
+      setDescription(""); // limpiar campo
+    } catch (err) {
+      console.error("Error al crear categoría:", err);
+      alert("Error al crear categoría");
+    }
+  };
+        
 
     return (
         <AdminCategoryView

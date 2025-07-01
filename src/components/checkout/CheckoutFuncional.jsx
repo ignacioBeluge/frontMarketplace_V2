@@ -30,9 +30,19 @@ const CheckoutFuncional = () => {
     };
 
     const handleSubmitOrder = async () => {
-        dispatch(createOrder())
-        alert("Orden creada con exito! ")
-        navigate('/orders')
+        try {
+            const resultado = await dispatch(createOrder())
+            if (createOrder.fulfilled.match(resultado)){
+                alert("Orden creada con exito ")
+                navigate('/orders')
+            } else {
+                const backError = resultado.payload.message;
+                alert("Error:\n" + backError);
+                navigate('/cart')
+            }
+        }catch(error) {
+            alert("Error: " + error.message);
+        }
     };
 
     return (

@@ -22,8 +22,6 @@ const CartPadre = () => {
     dispatch(fetchCart()); // traemos el carrito del backend al montar
   }, [token, dispatch]);
 
-  console.log("Items en CartPadre:", items)
-
   // Lógica para actualizar cantidad
   const handleUpdateCantidad = (productId, cantidad) => {
     dispatch(updateCantidad({ token, productId, quantity: cantidad }));

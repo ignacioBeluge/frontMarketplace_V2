@@ -1,73 +1,66 @@
-import { Link } from "react-router-dom"
-import { jwtDecode } from "jwt-decode"
-import { useEffec, useEffect, useState } from "react"
-import { useSelector } from "react-redux"
+import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
+const Navigation = ({ onLogout }) => {
+  const { token, role } = useSelector((state) => state.auth);
 
-// linkear componentes con rutas
-
-// actualiza vista sin recargar pagina
-
-const Navigation = () => {
-    const { token, role } = useSelector((state) => state.auth)
-
-    return (
-    <nav>
-        {token ? (
-            <p> Logueado as {role} </p>
-        ) : (
-            <p> No estas logeado </p>
-        )}
-
+  return (
+    <nav className="navbar">
+      <ul>
         <li>
-                <Link to="/">
-                    <button>Home</button>
-                </Link>
+          <Link to="/">
+            <button>🏠 Home</button>
+          </Link>
         </li>
 
         {!token && (
-                <>
-                <li>
-                    <Link to="/login">
-                    <button>Iniciar sesión</button>
-                    </Link>
-                </li>
-                
-                <li>
-                    <Link to="/register">
-                    <button>Registrarse</button>
-                    </Link>
-                </li>
-                </>
+          <>
+            <li>
+              <Link to="/login">
+                <button>Iniciar sesión</button>
+              </Link>
+            </li>
+            <li>
+              <Link to="/register">
+                <button>Registrarse</button>
+              </Link>
+            </li>
+          </>
         )}
 
         {token && (
-                <>
-                {role === "USER" && (
-                    <>
-                        <li>
-                            <Link to="/cart">🛒 Carrito </Link>
-                        </li>
-
-                        <li>
-                            <Link to="/orders"> Mis Órdenes </Link>
-                        </li>
-                    </>
-                )}
-
-                {role === "ADMIN" && (
-                    <li>
-                        <Link to="/admin">
-                        <button>Admin Panel </button>
-                        </Link>
-                    </li>
-                )}
-                </>
+          <>
+            {role === "USER" && (
+              <>
+                <li>
+                  <Link to="/cart">
+                    <button>🛒 Carrito</button>
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/orders">
+                    <button>Mis Órdenes</button>
+                  </Link>
+                </li>
+              </>
             )}
 
+            {role === "ADMIN" && (
+              <li>
+                <Link to="/admin">
+                  <button>🔧 Panel Admin</button>
+                </Link>
+              </li>
+            )}
 
+            <li>
+              <button onClick={onLogout}>Cerrar sesión</button>
+            </li>
+          </>
+        )}
+      </ul>
     </nav>
-    )
-}
+  );
+};
 
-export default Navigation
+export default Navigation;

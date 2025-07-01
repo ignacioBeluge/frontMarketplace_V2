@@ -1,16 +1,21 @@
 import {createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from "axios"
 
-export const fetchProducts = createAsyncThunk("products/fetchProducts", async(categoryId = null) => {
+export const fetchProducts = createAsyncThunk("products/fetchProducts", async(categoryId) => {
     //peticion a la app
-    const URL = categoryId
-        ? `http://localhost:8080/products/${categoryId}`
-        : `http://localhost:8080/products`;
-      
+    const URL = `http://localhost:8080/products/${categoryId}`
     const {data} = await axios.get(URL);
     return data;
 
 }) //llamadas a la api
+
+export const fetchAllProducts = createAsyncThunk("products/fetchAllProducts", async() => {
+    //peticion a la app
+    const URL = "http://localhost:8080/products"
+    const {data} = await axios.get(URL);
+    return data;
+
+}) 
 
 export const createProducts = createAsyncThunk("products/createProducts", async ( newProduct, thunkAPI ) => {
     try {
@@ -90,6 +95,18 @@ const productSlice = createSlice({
             state.items = action.payload // de los datos que obtuvo en la api los almacena en items
         })
         .addCase(fetchProducts.rejected, (state, action) => {
+            state.loading = false;
+            state.error = action.error.message
+        })
+        .addCase(fetchAllProducts.pending,(state)=>{
+            state.loading = true;
+            state.error = null;
+        })
+        .addCase(fetchAllProducts.fulfilled, (state, action) => {
+            state.loading = false;
+            state.items = action.payload
+        })
+        .addCase(fetchAllProducts.rejected, (state, action) => {
             state.loading = false;
             state.error = action.error.message
         })

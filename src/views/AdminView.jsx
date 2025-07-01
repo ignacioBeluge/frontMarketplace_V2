@@ -3,6 +3,8 @@ import { useSelector } from "react-redux"
 import AdminCategoryForm  from '../components/adminCategory/AdminCategoryForm'
 import AdminManageProducts from '../components/adminManage/AdminManageProducts';
 import AdminProductForm from '../components/adminProduct/AdminProductForm'
+import AdminManageOrders from '../components/adminOrders/adminManageOrders';
+
 const AdminView = () => {
 
     const navigate = useNavigate();
@@ -17,10 +19,14 @@ const AdminView = () => {
     return (
         <div>
             <h1> Panel de administrador </h1>
-            <AdminCategoryForm token={token}/>
-            <AdminProductForm token={token} />
+            <AdminCategoryForm />
+            <AdminProductForm />
             <button onClick={() => navigate("/admin/products/manage")}>
                 Modificar / Eliminar producto
+            </button>
+
+            <button onClick={() => navigate("/admin/orders/manage")}>
+                Eliminar Orden
             </button>
         </div>
     )

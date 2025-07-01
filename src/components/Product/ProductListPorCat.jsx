@@ -40,6 +40,7 @@ const ProductListPorCat = () => {
                 name = {product.name}
                 description = {product.description}
                 price = {product.price}
+                stock = {product.stock}
                 image = {product.imageBase64}
                 onAddToCart={agregarCarrito}
                 />

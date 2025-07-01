@@ -9,6 +9,7 @@ const UserOrdersView = ({ orders }) => {
             orders.map((order) => (
             <div key={order.orderId} style={{ border: "1px solid #ccc", padding: 10, marginBottom: 15 }}>
                 <p><strong>Fecha:</strong> {order.orderDate}</p>
+                <p><strong>Orden ID:</strong> {order.orderId}</p>
                 <p><strong>Total:</strong> ${order.total}</p>
                 <p><strong>Productos:</strong></p>
                 <ul>
