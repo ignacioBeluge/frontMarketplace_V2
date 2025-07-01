@@ -30,6 +30,18 @@ const AdminProductForm = () => {
       return;
     }
 
+    if (isNaN(price) || isNaN(stock)) {
+      alert("El precio y el stock deben ser números");
+      return;
+    }
+
+    if (parseFloat(price) <= 0 || parseInt(stock) < 0) {
+      alert("El precio debe ser mayor a 0 y el stock no puede ser negativo");
+      return;
+    }
+
+    // Crear el objeto del nuevo producto
+
     const newProduct = {
     name,
     description,
@@ -39,6 +51,7 @@ const AdminProductForm = () => {
     selectedCategoryId,
     }
     
+
     try {
       const resultAction = await dispatch(createProducts(newProduct));
 
@@ -52,7 +65,16 @@ const AdminProductForm = () => {
       console.error("Error en handleSubmit:", err);
       alert("Ocurrió un error inesperado");
     }
+
+    // Resetear el formulario
+    setName(""); 
+    setDescription("");
+    setPrice("");
+    setStock("");
+    setImageFile(null);
+    setSelectedCategoryId("");
   };
+
 
   if (loading) return <p>Cargando categorías...</p>;
   if (error) return <p>Error al cargar categorías: {error}</p>;
