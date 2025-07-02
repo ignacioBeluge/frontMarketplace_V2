@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
+import "./Navigation.css";
 
 const Navigation = ({ onLogout }) => {
   const { token, role } = useSelector((state) => state.auth);
@@ -9,7 +10,7 @@ const Navigation = ({ onLogout }) => {
       <ul>
         <li>
           <Link to="/">
-            <button>🏠 Home</button>
+            <button className="nav-button" >🏠 Home</button>
           </Link>
         </li>
 
@@ -17,12 +18,12 @@ const Navigation = ({ onLogout }) => {
           <>
             <li>
               <Link to="/login">
-                <button>Iniciar sesión</button>
+                <button className="nav-button" >Iniciar sesión</button>
               </Link>
             </li>
             <li>
               <Link to="/register">
-                <button>Registrarse</button>
+                <button className="nav-button" >Registrarse</button>
               </Link>
             </li>
           </>
@@ -34,12 +35,12 @@ const Navigation = ({ onLogout }) => {
               <>
                 <li>
                   <Link to="/cart">
-                    <button>🛒 Carrito</button>
+                    <button className="nav-button" >🛒 Carrito</button>
                   </Link>
                 </li>
                 <li>
                   <Link to="/orders">
-                    <button>Mis Órdenes</button>
+                    <button className="nav-button" >Mis Órdenes</button>
                   </Link>
                 </li>
               </>
@@ -48,13 +49,13 @@ const Navigation = ({ onLogout }) => {
             {role === "ADMIN" && (
               <li>
                 <Link to="/admin">
-                  <button>🔧 Panel Admin</button>
+                  <button className="nav-button">🔧 Panel Admin</button>
                 </Link>
               </li>
             )}
 
             <li>
-              <button onClick={onLogout}>Cerrar sesión</button>
+              <button onClick={onLogout} className="nav-button" >Cerrar sesión</button>
             </li>
           </>
         )}

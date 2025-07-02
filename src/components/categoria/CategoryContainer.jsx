@@ -74,7 +74,9 @@ const CategoryContainer = () => {
 
       {query.trim() === "" && (
         <>
-          <h2>Categorías</h2>
+          <h2 className="text-3xl md:text-4xl font-bold text-center text-indigo-400 mb-6 tracking-wide">
+  Categorías
+</h2>
           <CategoryList categories={categories} onCategoryClick={handleCategoryClick} />
         </>
       )}

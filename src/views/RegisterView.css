@@ -1,0 +1,92 @@
+
+
+.register-view-container {
+  min-height: calc(100vh - var(--header-height, 80px) - 40px); 
+  display: flex;
+  flex-direction: column;
+  justify-content: center; 
+  align-items: center; 
+  background-color: #282c34; 
+  color: #f0f0f0; 
+  padding: 40px 20px; 
+  box-sizing: border-box; 
+}
+
+.register-title {
+  font-size: 3em; 
+  margin-bottom: 40px; 
+  background: linear-gradient(to right, #818cf8, #4338ca, #818cf8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: bold;
+  text-align: center;
+}
+
+
+.register-view-container > div { 
+  background-color: #1a1a1a; 
+  padding: 40px;
+  border-radius: 15px; 
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.7); 
+  width: 100%;
+  max-width: 450px; 
+  text-align: center; 
+  border: 1px solid #818cf8; 
+}
+
+
+.register-view-container input[type="text"],
+.register-view-container input[type="password"],
+.register-view-container input[type="email"] {
+  width: calc(100% - 40px);
+  padding: 12px 20px;
+  margin-bottom: 20px; 
+  border-radius: 8px;
+  border: 1px solid #818cf8; 
+  background-color: #333; 
+  color: #f0f0f0; 
+  font-size: 1.1em;
+  outline: none; 
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.register-view-container input[type="text"]:focus,
+.register-view-container input[type="password"]:focus,
+.register-view-container input[type="email"]:focus {
+  border-color: #818cf8;
+  box-shadow: 0 0 8px rgba(153, 0, 255, 0.4); 
+}
+
+.register-view-container button {
+  width: 100%;
+  padding: 15px;
+  background-color: #4338ca; 
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.2em;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.register-view-container button:hover {
+  background-color: #818cf8; 
+  transform: translateY(-2px); 
+}
+
+.register-view-container p { 
+  margin-top: 20px;
+  font-size: 1em;
+  color: #ccc;
+}
+
+.register-view-container p a {
+  color: #818cf8; 
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.register-view-container p a:hover {
+  text-decoration: underline;
+}

@@ -36,6 +36,7 @@ const App = () => {
 
   return (
     <>
+    <div>
       <Navigation onLogout={handleLogout} />
       <Routes>
         <Route path="/" element={<HomeView />} />
@@ -55,6 +56,7 @@ const App = () => {
         <Route path="/orders" element={<UserOrdersFuncional />} />
         <Route path="/admin/orders/manage" element={<AdminManageOrders />} />
       </Routes>
+      </div>
     </>
   );
 };

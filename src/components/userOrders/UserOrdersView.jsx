@@ -5,54 +5,57 @@ const OrdersList = ({ orders, onDeleteOrder = () => {} }) => {
   const isAdmin = role === "ADMIN";
 
   return (
-    <div>
-      <h2>{isAdmin ? "Gestionar Órdenes" : "Mis Órdenes de Compra"}</h2>
+    <div className="max-w-4xl mx-auto px-4 py-6 text-white">
+      <h2 className="text-3xl font-bold text-indigo-400 mb-6 text-center">
+        {isAdmin ? "Gestionar Órdenes" : "Mis Órdenes de Compra"}
+      </h2>
+
       {orders.length === 0 ? (
-        <p>
+        <p className="text-gray-400 text-center">
           {isAdmin
             ? "No hay órdenes registradas."
             : "No tenés órdenes registradas."}
         </p>
       ) : (
-        orders.map((order) => (
-          <div
-            key={order.orderId}
-            style={{
-              border: "1px solid #ccc",
-              padding: 10,
-              marginBottom: 15,
-            }}
-          >
-            <p>
-              <strong>Fecha:</strong> {order.orderDate}
-            </p>
-            <p>
-              <strong>Orden ID:</strong> {order.orderId}
-            </p>
-            <p>
-              <strong>Total:</strong> ${order.total}
-            </p>
-            <p>
-              <strong>Productos:</strong>
-            </p>
-            <ul>
-              {order.items.map((item, index) => (
-                <li key={index}>
-                  {item.quantity} x {item.name} - ${item.price}
-                </li>
-              ))}
-            </ul>
+        <div className="space-y-6">
+          {orders.map((order) => (
+            <div
+              key={order.orderId}
+              className="bg-gray-800 rounded-lg shadow-md p-6 space-y-2 border border-gray-700"
+            >
+              <p>
+                <span className="font-semibold text-indigo-300">Fecha:</span>{" "}
+                {order.orderDate}
+              </p>
+              <p>
+                <span className="font-semibold text-indigo-300">Orden ID:</span>{" "}
+                {order.orderId}
+              </p>
+              <p>
+                <span className="font-semibold text-indigo-300">Total:</span> ${order.total}
+              </p>
+              <div>
+                <p className="font-semibold text-indigo-300">Productos:</p>
+                <ul className="list-disc list-inside ml-2">
+                  {order.items.map((item, index) => (
+                    <li key={index} className="text-gray-300">
+                      {item.quantity} x {item.name} - ${item.price}
+                    </li>
+                  ))}
+                </ul>
+              </div>
 
-            {isAdmin && (
-              <button
-                onClick={() => onDeleteOrder(order.orderId)}
-                className="mt-2 px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600"
-              >
-                Eliminar Orden
-              </button>
-            )}
-          </div>
-        ))
+              {isAdmin && (
+                <button
+                  onClick={() => onDeleteOrder(order.orderId)}
+                  className="mt-3 px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-md font-semibold transition"
+                >
+                  Eliminar Orden
+                </button>
+              )}
+            </div>
+          ))}
+        </div>
       )}
     </div>
   );

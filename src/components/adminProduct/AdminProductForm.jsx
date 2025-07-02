@@ -81,7 +81,6 @@ const AdminProductForm = () => {
 
   return (
     <>
-      <h1>Crear nuevo producto</h1>
       <AdminProductFormView
         name={name}
         description={description}
